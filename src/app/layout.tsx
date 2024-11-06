@@ -3,7 +3,7 @@ import { Inter as interFonts } from 'next/font/google'
 import './globals.css'
 import './page.module.css'
 import { headers } from 'next/headers'
-import ContextProvider from '@/context'
+import ContextProvider from '@/context';
 
 const inter = interFonts({ subsets: ['latin'] })
 
