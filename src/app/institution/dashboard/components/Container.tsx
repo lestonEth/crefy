@@ -16,7 +16,7 @@ export default function Container({ children }: ContainerProps) {
         <div className={`flex flex-row items-center py-2 px-2 h-screen gap-10 ${darkMode ? "bg-gray-700" : "bg-gray-200"} `}>
             <Sidebar />
 
-            <div className='w-full h-full rounded-xl'>
+            <div className='w-full h-full rounded-xl overflow-y-scroll'>    
                 <Topbar />
                 {children}
             </div>
