@@ -4,6 +4,7 @@ import './globals.css'
 import './page.module.css'
 import { headers } from 'next/headers'
 import ContextProvider from '@/context';
+import { ThemeProvider } from '@/context/ThemeContext';
 
 const inter = interFonts({ subsets: ['latin'] })
 
@@ -22,7 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ContextProvider cookies={cookies}>{children}</ContextProvider>
+        <ContextProvider cookies={cookies}>
+          <ThemeProvider>
+            {children}
+          </ThemeProvider>
+          </ContextProvider>
       </body>
     </html>
   )
