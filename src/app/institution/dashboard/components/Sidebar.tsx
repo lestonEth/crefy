@@ -36,7 +36,7 @@ export default function Sidebar() {
     const { darkMode, toggleTheme } = useTheme();
 
     return (
-        <div className={`flex flex-col min-w-[320px] pl-10 min-h-[100vh] rounded-xl ${darkMode ? 'bg-gray-800 text-white' : 'bg-gray-100 text-black'}`}>
+        <div className={`flex flex-col min-w-[320px] pl-10 min-h-[100vh] rounded-xl ${darkMode ? 'dark:bg-slate-800 text-white' : 'bg-gray-100 text-black'}`}>
             <div className="flex justify-between items-center py-[40px]">
                 <h1 className="text-xl font-extrabold">DCN</h1>
             </div>

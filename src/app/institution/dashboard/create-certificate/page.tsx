@@ -6,7 +6,7 @@ import Container from "../components/Container";
 import SmartContractForm from "./component/SmartContractForm";
 
 export default function CreateCertificate() {
-    const [activeTab, setActiveTab] = useState("Drop Cert");
+    const [activeTab, setActiveTab] = useState("Create New Collection");
 
     return (
         <Container>
@@ -24,7 +24,7 @@ export default function CreateCertificate() {
                     <button
                         onClick={() => setActiveTab("Drop Cert")}
                         className={`text-lg font-semibold  ${
-                            activeTab === "Drop Cert" ? "text-blue-900 border-b-2 border-blue-500" : "text-gray-200"
+                            activeTab === "Drop Cert" ? "text-blue-900 border-b-2 border-blue-500" : "text-gray-800"
                         }`}
                     >
                         Drop / Issue Cert
