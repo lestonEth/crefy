@@ -10,13 +10,13 @@ interface ThemeContextProps {
 
 // Create the context with default values
 const ThemeContext = createContext<ThemeContextProps>({
-    darkMode: true,
+    darkMode: false,
     toggleTheme: () => {},
 });
 
 // Provider component to wrap the app and manage theme state
 export function ThemeProvider({ children }: { children: ReactNode }) {
-    const [darkMode, setDarkMode] = useState(true);
+    const [darkMode, setDarkMode] = useState(false);
 
     const toggleTheme = () => {
         setDarkMode(!darkMode);
