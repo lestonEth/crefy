@@ -23,7 +23,7 @@ const NavLinks = [
 const walletLinks = [
     { name: "Wallet Account", href: "/student/dashboard/wallet", icon: <AccountBalanceWallet /> },
     { name: "NFT Market", href: "/student/dashboard/create-certificate", icon: <Storefront /> },
-    { name: "Import NFT", href: "/student/dashboard/nft-collection", icon: <ImportExport /> },
+    { name: "My Portfolio", href: "/student/dashboard/portfolio", icon: <ImportExport /> },
     { name: "Opportunities", href: "/student/dashboard/opportunities", icon: <WorkOutline /> },
 ];
 
@@ -36,58 +36,80 @@ export default function Sidebar() {
     const { darkMode, toggleTheme } = useTheme();
 
     return (
-        <div className={`flex flex-col min-w-[320px] pl-10 min-h-[100vh] relative rounded-xl ${darkMode ? 'dark:bg-slate-900 text-white' : 'bg-gray-100 text-black'}`}>
+        <div className={`flex flex-col min-w-[320px] pl-10 min-h-[95vh] relative rounded-xl`}
+            style={{background: "#110a29"}}
+        >
             <div className="flex justify-between items-center py-[40px]">
-                <h1 className="text-xl font-extrabold">DCN</h1>
+                <a className="text-xl font-extrabold"
+                    href={"/"}
+                >DCN</a>
             </div>
             
             {/* Overview Section */}
             <div className="flex flex-col gap-4 mt-4">
-                <h2 className={`text-2xl font-extrabold ${darkMode ? 'text-gray-500' : 'text-gray-500'}`}>OVERVIEW</h2>
+                <h2 className={`text-lg font-extrabold ${darkMode ? 'text-gray-100' : 'text-gray-400'}`}>OVERVIEW</h2>
                 {NavLinks.map((link, index) => (
                     <a
                         key={index}
                         href={link.href}
-                        className={`flex items-center gap-2 py-3 hover:text-blue-400 text-md ${darkMode ? 'text-white' : 'text-black'}`}
+                        className={`flex items-center gap-4 py-1 hover:text-blue-400 text-md ${darkMode ? 'text-white' : 'text-white'}`}
                     >
-                        {link.icon}
+                        <div className="w-[30px] h-[30px] flex justify-center items-center rounded-lg bg-[#0d499b]">{link.icon}</div>
                         {link.name}
                     </a>
                 ))}
             </div>
 
-            {/* Wallet Section */}
-            <div className="flex flex-col gap-4 mt-10">
-                <h2 className={`text-2xl font-extrabold ${darkMode ? 'text-gray-500' : 'text-gray-500'}`}>WALLETS</h2>
+            {/* wallet Section */}
+            <div className="flex flex-col gap-4 mt-4">
+                <h2 className={`text-lg font-extrabold ${darkMode ? 'text-gray-100' : 'text-gray-400'}`}>WALLETS</h2>
                 {walletLinks.map((link, index) => (
                     <a
                         key={index}
                         href={link.href}
-                        className={`flex items-center gap-2 py-3 hover:text-blue-400 text-md ${darkMode ? 'text-white' : 'text-black'}`}
+                        className={`flex items-center gap-4 py-1 hover:text-blue-400 text-md ${darkMode ? 'text-white' : 'text-white'}`}
                     >
-                        {link.icon}
+                        <div className="w-[30px] h-[30px] flex justify-center items-center rounded-lg bg-[#0d499b]">{link.icon}</div>
                         {link.name}
                     </a>
                 ))}
             </div>
 
             {/* Additional Section */}
-            <div className="flex flex-col gap-4 mt-10">
-                <h2 className={`text-2xl font-extrabold ${darkMode ? 'text-gray-500' : 'text-gray-500'}`}>TOOLBOX</h2>
+            <div className="flex flex-col gap-4 mt-4">
+                <h2 className={`text-lg font-extrabold ${darkMode ? 'text-gray-100' : 'text-gray-400'}`}>SETTINGS</h2>
                 {additionalLinks.map((link, index) => (
                     <a
                         key={index}
                         href={link.href}
-                        className={`flex items-center gap-2 py-3 hover:text-blue-400 text-md ${darkMode ? 'text-white' : 'text-black'}`}
+                        className={`flex items-center gap-4 py-1 hover:text-blue-400 text-md ${darkMode ? 'text-white' : 'text-white'}`}
                     >
-                        {link.icon}
+                        <div className="w-[30px] h-[30px] flex justify-center items-center rounded-lg bg-[#0d499b]">{link.icon}</div>
                         {link.name}
                     </a>
                 ))}
             </div>
 
+
             {/* Connected Wallet Icon at the Bottom */}
-            <div className="mt-auto flex flex-col justify-center absolute left-0 bottom-0 py-3 w-full">
+            <div className="mt-auto flex flex-col justify-center absolute left-0 bottom-0 py-3 px-9 w-full">
+                <div className="w-[250px] my-3 h-[150px] rounded-2xl shadow-md flex flex-col justify-center px-6"
+                    style={{
+                        backgroundImage: "url('https://demos.creative-tim.com/vision-ui-dashboard-react/static/media/sidenav-card-background.00019e46.png')",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat",
+                    }}
+                >
+                    <p className="text-white font-extrabold">Need help?</p>
+                    <p className="text-gray-300">Please check our docs</p>
+                    <a className="rounded-lg font-bold my-2 px-6 py-1"
+                        style={{
+                            background: "#4d00af",
+                        }}
+                        href={"/student/dashboard/documentation"}
+                    >Documentation</a>
+                </div>
                 <w3m-network-button />
             </div>
         </div>
