@@ -1,14 +1,33 @@
 "use client";
 import { useState } from 'react';
 
+interface Answer {
+    text: string;
+    type?: 'bullet' | 'normal';
+}
+
 interface FAQItemProps {
     question: string;
-    answer: string;
+    answer: string | string[];
     index: number;
 }
 
 const FAQItem = ({ question, answer, index }: FAQItemProps) => {
     const [isOpen, setIsOpen] = useState(false);
+
+    const renderAnswer = () => {
+        if (typeof answer === 'string') {
+            return <p className="text-sm text-blue-200 mt-2">{answer}</p>;
+        }
+        
+        return (
+            <ul className="list-disc pl-5 mt-2">
+                {answer.map((item, idx) => (
+                    <li key={idx} className="text-sm text-blue-200 mb-1">{item}</li>
+                ))}
+            </ul>
+        );
+    };
 
     return (
         <div
@@ -20,9 +39,7 @@ const FAQItem = ({ question, answer, index }: FAQItemProps) => {
                 <h3 className="text-lg">{question}</h3>
                 <div className="text-2xl font-bold">{isOpen ? "▲" : "▼"}</div>
             </div>
-            {isOpen && (
-                <p className="text-sm text-blue-200 mt-2">{answer}</p>
-            )}
+            {isOpen && renderAnswer()}
         </div>
     );
 };
@@ -30,20 +47,30 @@ const FAQItem = ({ question, answer, index }: FAQItemProps) => {
 const FAQ = () => {
     const faqs = [
         {
-            question: "What is a Decentralized Certificate Network?",
-            answer: "A Decentralized Certificate Network utilizes blockchain technology to provide secure, verifiable, and tamper-proof digital certificates without the need for a central authority."
+            question: "What is DCN ? (Decentralized Credential Network)",
+            answer: "It's like a digital filing cabinet for important Credential documents (like diplomas or certificates) that nobody can mess with or fake. Instead of one organization keeping all the records, they're stored across many computers."
         },
         {
-            question: "How does a Decentralized Certificate Network work?",
-            answer: "The network records certificates on a blockchain, ensuring that certificates are immutable and easily accessible. Verification is done through blockchain nodes, providing decentralized validation."
+            question: "How does a Decentralized Credential Network work?",
+            answer: [
+                "Schools or organizations create digital certificates",
+                "These certificates are stored in a special way that's like putting them in an unbreakable glass case",
+                "Anyone can look at them to check if they're real",
+                "Nobody can change or fake them once they're created"
+            ]
         },
         {
-            question: "What are the benefits of a Decentralized Certificate Network?",
-            answer: "It ensures security, transparency, and authenticity. Users and organizations can verify certificates independently, reducing fraud and increasing trust in credentials."
+            question: "What are the benefits of a Decentralized Credential Network?",
+            answer: [
+                "You can't lose your certificates",
+                "Nobody can make fake copies",
+                "Anyone can check if a certificate is real",
+                "You don't need to go through lots of offices to verify your documents"
+            ]
         },
         {
-            question: "How do I issue a certificate on a Decentralized Certificate Network?",
-            answer: "To issue a certificate, an organization would create a certificate with the relevant details and store it on the blockchain. The certificate is then permanently available for verification."
+            question: "WTF is an NFT?",
+            answer: "Think of an NFT like a one-of-a-kind digital sticker that can't be copied. In this case, your certificate is like a special sticker that proves your achievement is real and belongs to you."
         }
     ];
 
@@ -52,17 +79,22 @@ const FAQ = () => {
             <h2 className="text-4xl font-bold text-white mb-4 text-center">Frequently Asked Questions</h2>
             <p className="text-center text-blue-200 mb-6">The Web 3.0 leverages AI, Machine Learning, and blockchain technology. It is expected to achieve real-world communication.</p>
             {faqs.map((faq, index) => (
-                <div key={index} className='flex items-center justify-start space-x-10 p-4 text-white rounded-lg my-2 cursor-pointer transition-transform transform hover:scale-105'>
-                    {/* circular div */}
-                    <div className="bg-blue-600 rounded-full flex items-center justify-center"
+                <div key={index} className="flex items-center justify-start space-x-10 p-4 text-white rounded-lg my-2 cursor-pointer transition-transform transform hover:scale-105">
+                    <div 
+                        className="bg-blue-600 rounded-full flex items-center justify-center"
                         style={{ width: "40px", height: "40px" }}
                     >
                         <span>{index + 1}</span>
                     </div>
-                    {/* horizontal line */}
-                    <div className="bg-blue-600 faq_line" style={{ width: "300px", height: '1px'}}></div>
-
-                    <FAQItem key={index} question={faq.question} answer={faq.answer} index={index} />
+                    <div 
+                        className="bg-blue-600 faq_line" 
+                        style={{ width: "300px", height: '1px'}}
+                    />
+                    <FAQItem 
+                        question={faq.question} 
+                        answer={faq.answer} 
+                        index={index} 
+                    />
                 </div>
             ))}
         </div>
