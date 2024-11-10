@@ -32,14 +32,12 @@ const Carousel = () => {
 
 
     const cards = [
-        { title: "Partner 1" },
-        { title: "Partner 2" },
-        { title: "Partner 3" },
-        { title: "Partner 4" },
-        { title: "Partner 5" },
-        { title: "Partner 6" },
-        { title: "Partner 7" },
-        { title: "Partner 8" },
+        { title: "JOMO KENYATTA UNIVERSITY" },
+        { title: "ZETECH UNIVERSITY" },
+        { title: "MOUNT KENYA UNIVERSITY" },
+        { title: "CHAVAKALI HIGH SCHOOL" },
+        { title: "Riara Springs Girls High School" },
+        { title: "PIONEER PRIMARY SCHOOL" },
     ];
 
     return (
