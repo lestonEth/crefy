@@ -1,18 +1,12 @@
 "use client";
 import { useState } from 'react';
 
-interface Answer {
-    text: string;
-    type?: 'bullet' | 'normal';
-}
-
 interface FAQItemProps {
     question: string;
     answer: string | string[];
-    index: number;
 }
 
-const FAQItem = ({ question, answer, index }: FAQItemProps) => {
+const FAQItem = ({ question, answer }: FAQItemProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const renderAnswer = () => {
@@ -93,7 +87,6 @@ const FAQ = () => {
                     <FAQItem 
                         question={faq.question} 
                         answer={faq.answer} 
-                        index={index} 
                     />
                 </div>
             ))}

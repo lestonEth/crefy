@@ -7,6 +7,7 @@ import { QrCode2 } from "@mui/icons-material";
 import { useState } from "react";
 import ReactCardFlip from "react-card-flip";
 import QRCode from 'react-qr-code';
+import Image from "next/image";
 
 
 export default function UserCard() {
@@ -14,7 +15,7 @@ export default function UserCard() {
     const [isFlipped, setIsFlipped] = useState(false);
 
     // Function to trim the address
-    const trimAddress = (address: any) => {
+    const trimAddress = (address: string) => {
         return `${address.slice(0, 6)}...${address.slice(-4)}`;
     };
 
@@ -45,7 +46,7 @@ export default function UserCard() {
                             {/* wallet address if connected with copy mui icon */}
                             <div className="flex items-center mt-4">
                                 <span className="text-gray-300">
-                                    {isConnected ? trimAddress(address) : "Connecting Wallet..."}
+                                    {isConnected && address ? trimAddress(address) : "Connecting Wallet..."}
                                 </span>
                                 <IconButton className="text-gray-300">
                                     <ContentCopy fontSize="small" className="text-white" />
@@ -56,10 +57,10 @@ export default function UserCard() {
                         {/* Share and QR Code Flip Icons */}
                         <div className="flex space-x-2">
                             <IconButton style={{ backgroundColor: '#110a29', width: 40, height: 40 }}>
-                                <Share fontSize="small" color="primary" />
+                                <Share fontSize="small" style={{ color: '#4caf50' }} />
                             </IconButton>
                             <IconButton className="text-gray-200" style={{ backgroundColor: '#110a29', width: 40, height: 40 }} onClick={handleFlip}>
-                                <QrCode2 fontSize="small" color="primary" />
+                                <QrCode2 fontSize="small"  style={{ color: '#fff' }} />
                             </IconButton>
                         </div>
                     </div>

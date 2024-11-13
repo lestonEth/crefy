@@ -13,12 +13,22 @@ export default function Container({ children }: ContainerProps) {
     const { darkMode } = useTheme();
     
     return (
-        <div className={`flex flex-row items-center py-2 px-2 h-screen gap-10 ${darkMode ? "bg-gray-700" : "bg-gray-200"} `}>
-            <Sidebar />
+        <div className={`flex flex-row items-center h-screen ${darkMode ? "bg-gray-700" : "bg-gray-200"} `}
+        style={{
+            background: "#1E2327",
+        }}
+        >
+            <div className="">
+                <Sidebar />
+            </div>
 
-            <div className='w-full h-full rounded-xl overflow-y-scroll'>    
-                <Topbar />
-                {children}
+            <div className='w-full h-full rounded-xl overflow-y-scroll py-3 px-2'>   
+                <div className="min-w-[100%] min-h-[100%] rounded-xl border border-[#2E343A]"
+                    style={{background: "#151A1D"}}
+                >
+                    <Topbar />
+                    {children}
+                </div>
             </div>
         </div>
     );

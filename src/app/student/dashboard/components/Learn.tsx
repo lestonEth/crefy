@@ -16,7 +16,8 @@ export default function Learn() {
         <Box
             className="bg-[#12132D] p-6 rounded-xl overflow-y-auto"
             style={{
-                height: "80vh", // Set height to make it scrollable within the dashboard
+                minHeight: "80vh", // Set height to make it scrollable within the dashboard
+                maxHeight: "100%", // Set min-height to prevent it from collapsing
             }}
         >
             <Typography variant="h5" color="white" gutterBottom>
@@ -33,6 +34,11 @@ export default function Learn() {
                     </Typography>
                 </Box>
             ))}
+
+            <button 
+                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                style={{background: "linear-gradient(90deg, #1D4ED8 0%, #1E40AF 100%)"}}
+            > Learn More </button>
         </Box>
     );
 }

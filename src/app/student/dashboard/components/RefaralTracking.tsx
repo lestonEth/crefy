@@ -26,8 +26,8 @@ export default function RefaralTracking() {
         <div className="bg-[#12132D] p-4 rounded-2xl w-2/4">
             <div className="flex justify-between items-center">
                 <h3 className="text-lg font-bold text-gray-100">Referral Tracking</h3>
-                <IconButton style={{ backgroundColor: '#4d00af', width: 40, height: 40, borderRadius: 4 }}>
-                    <MoreHoriz fontSize="small" color="primary" />
+                <IconButton style={{backgroundColor: '#110a29', color: "white", width: 40, height: 40, borderRadius: 4 }}>
+                    <MoreHoriz fontSize="small" />
                 </IconButton>
             </div>
 
