@@ -20,7 +20,7 @@ export default function SmartContractForm() {
     const [signersModalOpen, setSignersModalOpen] = useState(false);
     const [signers, setSigners] = useState<string[]>([]); // To store selected signers
     const [clickedInputIndex, setClickedInputIndex] = useState<number | null>(null); // Track clicked input index
-    const [certData, setCertData] = useState<{studentName: string, grade: string, imageCid: string, issuerName: string, signers: string[]}>({studentName: "", grade: "", imageCid: "", issuerName: "", signers: []});
+    const [certData, setCertData] = useState<{ studentName: string, grade: string, imageCid: string, issuerName: string, signers: string[] }>({ studentName: "", grade: "", imageCid: "", issuerName: "", signers: [] });
 
     const handleFileChange = (files: File[]) => {
         setFile(files[0]);
@@ -106,12 +106,21 @@ export default function SmartContractForm() {
                     <div className="flex flex-row justify-end">
                         <button
                             onClick={uploadFile}
-                            className="mt-2 px-3 py-1 text-white rounded-md hover:bg-gray-600 flex items-center justify-center"
+                            className="mt-2 px-3 py-1 text-white rounded-md hover:bg-gray-600 flex items-center justify-center border border-gray-600 relative"
                         >
                             {uploading && (
                                 <span className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-gray-300 mr-2"></span>
                             )}
                             {uploading ? "Uploading..." : "Upload to IPFS"}
+                            {!uploading && (
+                                <span className="pointer-indicator animate-bounce absolute -right-0 top-1/2 transform -translate-x-1 text-gray-300"
+                                    style={{
+                                        right: '-200px',
+                                    }}
+                                >
+                                    ⬅️ Upload cert image first
+                                </span>
+                            )}
                         </button>
                     </div>
                     {message && 'message' in message && 'type' in message && (
@@ -135,7 +144,7 @@ export default function SmartContractForm() {
                             placeholder="Enter Student Name"
                             required
                             value={certData.studentName}
-                            onChange={(e) => setCertData({...certData, studentName: e.target.value})}
+                            onChange={(e) => setCertData({ ...certData, studentName: e.target.value })}
                             minLength={3}
                             maxLength={100}
                             className="w-full my-2 p-2 rounded focus:outline-none bg-[#1E2327] border border-gray-600 text-gray-300"
@@ -151,7 +160,7 @@ export default function SmartContractForm() {
                             required
                             pattern="^[A-Fa-f]{1}$"  // Restrict to single letter grade
                             value={certData.grade}
-                            onChange={(e) => setCertData({...certData, grade: e.target.value})}
+                            onChange={(e) => setCertData({ ...certData, grade: e.target.value })}
                             className="w-full my-2 p-2 rounded focus:outline-none bg-[#1E2327] border border-gray-600 text-gray-300"
                         />
                     </div>
@@ -176,7 +185,7 @@ export default function SmartContractForm() {
                             placeholder="Enter Issuer Name"
                             required
                             value={certData.issuerName}
-                            onChange={(e) => setCertData({...certData, issuerName: e.target.value})}
+                            onChange={(e) => setCertData({ ...certData, issuerName: e.target.value })}
                             minLength={3}
                             maxLength={100}
                             className="w-full my-2 p-2 rounded focus:outline-none bg-[#1E2327] border border-gray-600 text-gray-300"
