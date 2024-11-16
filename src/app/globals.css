@@ -82,3 +82,61 @@
   background-size: 200% 200%;
   animation: gradientMove 3s linear infinite;
 }
+
+
+/* Add these styles to your global CSS or Tailwind configuration */
+
+/* Network button size and animated border */
+.network-square {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1E2327; /* dark gray background */
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  font-size: 16px;
+  color: #ccc;
+  transition: all .3s ease;
+}
+
+/* Glowing border animation */
+.network-square::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background: linear-gradient(45deg, rgba(0, 255, 255, 0.7), rgba(255, 0, 255, 0.7), rgba(0, 255, 0, 0.7), rgba(255, 255, 0, 0.7));
+  background-size: 400% 400%;
+  border-radius: 10px;
+  z-index: -1; /* Ensure the glow is behind the text */
+}
+
+/* Glowing animation keyframes */
+@keyframes glowing {
+  0% {
+      background-position: 0 0;
+  }
+  50% {
+      background-position: 400% 400%;
+  }
+  100% {
+      background-position: 0 0;
+  }
+}
+
+/* Hover effect */
+.network-square:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 30px rgba(255, 0, 255, 0.5), 0 0 45px rgba(0, 255, 0, 0.5);
+}
+
+/* Optional: Focus state for accessibility */
+.network-square:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+}

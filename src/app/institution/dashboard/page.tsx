@@ -2,9 +2,9 @@
 
 // components imports
 import Container from "./components/Container";
+import CircularProgressTracker from "./components/CircularProgressTracker";
 
 export default function Dashboard() {
-    
     return (
         <Container>
             <div className="flex px-10 flex-col gap-4 py-6">
@@ -28,6 +28,8 @@ export default function Dashboard() {
                 {/* Total Students */}
                 <div className="w-[100%] flex flex-row gap-4 my-4">
                     <div className="w-2/3 bg-[#1E2327] min-h-[400px] rounded-xl border border-[#2E343A]">
+
+                        
                     </div>
                     <div className="w-1/3 flex flex-col gap-4">
                         <div className="w-[100%] bg-[#1E2327] min-h-[200px] rounded-xl border border-[#2E343A]"></div>

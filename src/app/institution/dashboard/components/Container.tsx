@@ -23,7 +23,7 @@ export default function Container({ children }: ContainerProps) {
             </div>
 
             <div className='w-full h-full rounded-xl overflow-y-scroll py-3 px-2'>   
-                <div className="min-w-[100%] min-h-[100%] rounded-xl border border-[#2E343A]"
+                <div className="min-w-[100%] min-h-[100%] max-h-[calc(100vh-100px)] rounded-xl border border-[#2E343A] overflow-y-scroll scrollbar-hide"
                     style={{background: "#151A1D"}}
                 >
                     <Topbar />

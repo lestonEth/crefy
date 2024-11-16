@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Container from "../components/Container";
 import SmartContractForm from "./component/SmartContractForm";
+import DropContractCertificate from "./component/dropContractCertificate";
 
 export default function CreateCertificate() {
     const [activeTab, setActiveTab] = useState("Create New Collection");
@@ -35,8 +36,7 @@ export default function CreateCertificate() {
                 {/* Content based on selected tab */}
                 {activeTab === "Drop Cert" ? (
                     <div className="w-full p-8">
-
-                        {/* You can add more content for the "Drop Cert" section here */}
+                        <DropContractCertificate />
                     </div>
                 ) : (
                     <div className="w-full p-8">
