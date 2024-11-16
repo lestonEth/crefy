@@ -2,7 +2,6 @@
 
 import {
     Dashboard,
-    People,
     Assignment,
     AccountBalanceWallet,
     Storefront,
@@ -10,8 +9,6 @@ import {
     WorkOutline,
     Settings,
     ExitToApp,
-    Brightness4,
-    Brightness7,
 } from "@mui/icons-material";
 import { useTheme } from "@/context/ThemeContext";
 
@@ -22,9 +19,9 @@ const NavLinks = [
 
 const walletLinks = [
     { name: "Wallet Account", href: "/student/dashboard/wallet", icon: <AccountBalanceWallet /> },
-    { name: "NFT Market", href: "/student/dashboard/create-certificate", icon: <Storefront /> },
     { name: "My Portfolio", href: "/student/dashboard/portfolio", icon: <ImportExport /> },
-    { name: "Opportunities", href: "/student/dashboard/opportunities", icon: <WorkOutline /> },
+    { name: "Opportunities", href: "/student/dashboard/oppotunities", icon: <WorkOutline /> },
+    { name: "NFT Market", href: "/student/dashboard/nftmarket", icon: <Storefront /> },
 ];
 
 const additionalLinks = [
@@ -33,14 +30,14 @@ const additionalLinks = [
 ];
 
 export default function Sidebar() {
-    const { darkMode, toggleTheme } = useTheme();
+    const { darkMode } = useTheme();
 
     return (
-        <div className={`flex flex-col min-w-[320px] pl-10 min-h-[95vh] relative rounded-xl`}
+        <div className={`flex flex-col min-w-[320px] pl-10 min-h-[98vh] relative rounded-xl`}
             style={{background: "#110a29"}}
         >
             <div className="flex justify-between items-center py-[40px]">
-                <a className="text-xl font-extrabold"
+                <a className="text-xl font-extrabold text-white"
                     href={"/"}
                 >DCN</a>
             </div>
@@ -92,7 +89,7 @@ export default function Sidebar() {
 
 
             {/* Connected Wallet Icon at the Bottom */}
-            <div className="mt-auto flex flex-col justify-center absolute left-0 bottom-0 py-3 px-9 w-full">
+            <div className="mt-auto flex flex-col justify-center my-[10%] w-full">
                 <div className="w-[250px] my-3 h-[150px] rounded-2xl shadow-md flex flex-col justify-center px-6"
                     style={{
                         backgroundImage: "url('https://demos.creative-tim.com/vision-ui-dashboard-react/static/media/sidenav-card-background.00019e46.png')",

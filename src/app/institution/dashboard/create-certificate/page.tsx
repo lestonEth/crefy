@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useTheme } from "@/context/ThemeContext";
 import Container from "../components/Container";
 import SmartContractForm from "./component/SmartContractForm";
+import DropContractCertificate from "./component/dropContractCertificate";
 
 export default function CreateCertificate() {
     const [activeTab, setActiveTab] = useState("Create New Collection");
@@ -16,7 +16,7 @@ export default function CreateCertificate() {
                     <button
                         onClick={() => setActiveTab("Create New Collection")}
                         className={`text-lg font-semibold ${
-                            activeTab === "Create New Collection" ? "text-blue-500 border-b-2 border-blue-500" : "text-gray-600"
+                            activeTab === "Create New Collection" ? "text-blue-500 border-b-2 border-blue-500" : "text-gray-400"
                         }`}
                     >
                         Create New Collection
@@ -24,7 +24,7 @@ export default function CreateCertificate() {
                     <button
                         onClick={() => setActiveTab("Drop Cert")}
                         className={`text-lg font-semibold  ${
-                            activeTab === "Drop Cert" ? "text-blue-900 border-b-2 border-blue-500" : "text-gray-800"
+                            activeTab === "Drop Cert" ? "text-blue-900 border-b-2 border-blue-500" : "text-gray-400"
                         }`}
                     >
                         Drop / Issue Cert
@@ -36,8 +36,7 @@ export default function CreateCertificate() {
                 {/* Content based on selected tab */}
                 {activeTab === "Drop Cert" ? (
                     <div className="w-full p-8">
-
-                        {/* You can add more content for the "Drop Cert" section here */}
+                        <DropContractCertificate />
                     </div>
                 ) : (
                     <div className="w-full p-8">

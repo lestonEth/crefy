@@ -16,8 +16,8 @@ interface DropdownItemProps {
 }
 
 const NavLink = ({ href, children }: NavLinkProps) => (
-    <Link 
-        href={href} 
+    <Link
+        href={href}
         className="text-white hover:text-[#00E1FF] text-xl transition-colors duration-300 relative group"
     >
         {children}
@@ -40,7 +40,7 @@ export default function DcnNavBar() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
-    const { address, isConnected, caipAddress, status } = useAppKitAccount();
+    const { isConnected } = useAppKitAccount();
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -69,10 +69,11 @@ export default function DcnNavBar() {
 
     return (
         <nav
-            className="flex justify-between items-center p-4 rounded-md mb-8 py-10 px-10 relative overflow-hidden"
+            className="flex justify-between items-center p-4 rounded-md mb-8 py-10 px-10 relative overflow-visible"
             style={{
                 backgroundColor: '#0A0B1E',
                 boxShadow: '0 8px 32px 0 rgba(0, 149, 255, 0.1)',
+                zIndex: 1000000
             }}
         >
             {/* Animated background dots */}
@@ -89,9 +90,9 @@ export default function DcnNavBar() {
             </h1>
 
             {/* Navigation Links */}
-            <ul 
+            <ul
                 className="flex space-x-6 border border-[#0095FF]/30 py-2 px-4 rounded-xl relative z-10"
-                style={{ 
+                style={{
                     background: 'linear-gradient(135deg, rgba(9,28,36,0.7) 0%, rgba(40,54,76,0.7) 100%)',
                     backdropFilter: 'blur(10px)',
                 }}
@@ -106,13 +107,13 @@ export default function DcnNavBar() {
             {/* Wallet Connection / Dashboard */}
             {!isConnected ? (
                 // @ts-ignore - Custom web component
-                <appkit-button />
+                <w3m-button label='Log in/ Connect wallet' />
             ) : (
                 <div className="relative z-10" ref={dropdownRef}>
                     <button
                         onClick={() => setDropdownOpen(!dropdownOpen)}
                         className="flex items-center text-xl px-8 py-2 text-white hover:text-[#00E1FF] rounded-md focus:outline-none transition-all duration-300"
-                        style={{ 
+                        style={{
                             background: 'linear-gradient(135deg, rgba(9,28,36,0.7) 0%, rgba(40,54,76,0.7) 100%)',
                             backdropFilter: 'blur(10px)',
                             border: '1px solid rgba(0, 149, 255, 0.3)',
@@ -124,10 +125,10 @@ export default function DcnNavBar() {
                             fill="currentColor"
                             viewBox="0 0 20 20"
                         >
-                            <path 
-                                fillRule="evenodd" 
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" 
-                                clipRule="evenodd" 
+                            <path
+                                fillRule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clipRule="evenodd"
                             />
                         </svg>
                     </button>
@@ -135,12 +136,13 @@ export default function DcnNavBar() {
                     {/* Dropdown Menu */}
                     {dropdownOpen && (
                         <div
-                            className="absolute right-0 mt-2 min-w-[290px] rounded-md shadow-lg z-20"
+                            className="absolute right-0 mt-2 min-w-[290px] rounded-md shadow-lg z-10"
                             style={{
                                 background: 'linear-gradient(135deg, rgba(9,28,36,0.9) 0%, rgba(40,54,76,0.9) 100%)',
                                 backdropFilter: 'blur(20px)',
                                 border: '1px solid rgba(0, 149, 255, 0.3)',
                                 boxShadow: '0 10px 25px rgba(0, 149, 255, 0.2)',
+                                zIndex: 100000,
                             }}
                         >
                             <ul className="py-1 px-3 text-white">

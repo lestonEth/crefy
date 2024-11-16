@@ -2,6 +2,7 @@
 // import Video from next
 import React from "react";
 // import worldVideo from "../../assets/world.mp4";
+import ReactPlayer from 'react-player';
 
 export default function Carousel() {
     return (
@@ -20,17 +21,17 @@ export default function Carousel() {
             <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50 z-1"></div>
 
             {/* Carousel Section */}
-            <div className="relative flex-1 flex flex-col lg:flex-row items-center justify-center p-6 lg:p-12 rounded-3xl z-10"
-                style={{background: 'linear-gradient(rgba(2, 3, 33, 1   ), rgba(2, 3, 33, .8))'}}
+            <div className="relative flex-1 flex flex-col lg:flex-row items-center justify-center p-6 lg:p-12 rounded-3xl"
+                style={{ background: 'linear-gradient(135deg, #0A0B1E, rgba(43, 88, 118, .8), #0A0B1E)' }}
             >
-                
+
                 {/* Text Section */}
                 <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left lg:mr-8">
                     <h1 className="text-5xl lg:text-8xl font-extrabold text-white leading-tight mb-6 lg:mb-8" style={{ letterSpacing: '0.1em' }}>
                         Step Into Your Digital Future With DCN
                     </h1>
                     <p className="text-lg lg:text-xl text-gray-300 mb-8">
-                        A decentralized network for managing credentials and certificates. 
+                        A decentralized network for managing credentials and certificates.
                         DCN is a decentralized network that allows users to manage their credentials and certificates in a secure and efficient way.
                     </p>
 
@@ -48,7 +49,7 @@ export default function Carousel() {
 
                 {/* Image Section */}
                 <div className="w-full lg:w-1/2 flex justify-center mt-8 lg:mt-0">
-                    <img src="/images/hero.png" alt="DCN Hero" className="w-64 h-64 lg:w-96 lg:h-96 rounded-full shadow-lg border-4 border-gray-800 animate-bounce" />
+                   
                 </div>
             </div>
         </div>

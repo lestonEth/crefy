@@ -7,7 +7,6 @@ import Footer from '../components/footer';
 import Image from 'next/image';
 import speachimage from '../../assets/speachimage.png';
 import partnerimage from '../../assets/partnerimage.png';
-import bit1 from '../../assets/bit1.svg';
 export default function Whitepaper() {
     const [showDrawer, setShowDrawer] = useState(false);
 

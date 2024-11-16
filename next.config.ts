@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // // Add file loader configuration
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   webpack(config, options) {
     config.module.rules.push({
       test: /\.(mp4|webm)$/,

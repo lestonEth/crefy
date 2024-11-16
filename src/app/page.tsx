@@ -1,14 +1,13 @@
 "use client";
 
 import React from "react";
-import { AppKit, W3mAccountActivityWidget, W3mAccountView } from '@reown/appkit';
 import DcnNavBar from './components/dcnnavbar';
-import Particles from "react-tsparticles";
 import Carousel from "./components/Carousel";
 import CarouselWidget from "./components/CarouselWidget";
 import HowToGetStarted from "./components/howtogetStarted";
 import FAQ from "./components/FAQ";
 import Footer from "./components/footer";
+import Image from "next/image";
 
 export default function Home() {
     return (
@@ -34,11 +33,11 @@ export default function Home() {
 
             {/* FAQ */}
             <FAQ />
-            
+
             {/* Sign Up Section */}
             <div className='flex items-center justify-center my-[10rem]'>
                 <div className="max-w-[80%] relative flex flex-col lg:flex-row items-center z-10 p-6 lg:p-1 rounded-3xl shadow-lg flex-1 overflow-hidden"
-                    style={{ 
+                    style={{
                         minHeight: '350px',
                         background: 'linear-gradient(135deg, rgba(23, 34, 77, 0.8), rgba(43, 88, 118, 0.8))',
                         backdropFilter: 'blur(10px)',
@@ -68,14 +67,17 @@ export default function Home() {
 
                     <div className="w-full lg:w-1/2 flex justify-center lg:mt-0 relative overflow-hidden rounded-xl">
                         <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-purple-600 opacity-75"></div>
-                        <img 
-                            src="https://img.freepik.com/free-vector/abstract-blue-backgroud-modern-design_677411-2939.jpg" 
-                            alt="DCN Email" 
-                            className="relative z-10 h-full w-full object-cover transform hover:scale-110 transition duration-500" 
-                        />
+                        {/* <Image
+                            src="https://img.freepik.com/free-vector/abstract-blue-backgroud-modern-design_677411-2939.jpg"
+                            alt="DCN Email"
+                            loading="eager"
+                            className="relative z-10 h-full w-full object-cover transform hover:scale-110 transition duration-500"
+                            width={500}
+                            height={200}
+                        /> */}
                         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(23,34,77,0.8)] to-transparent"></div>
                     </div>
-                
+
                     {/* 3D Floating Elements */}
                     <div className="absolute -top-10 -left-10 w-20 h-20 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
                     <div className="absolute -bottom-10 -right-10 w-20 h-20 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
