@@ -1,64 +1,23 @@
 "use client";
-import React, { useState } from "react";
-import { ethers } from "ethers";
-import abi from "@/app/api/abi.js";
+import Container from "../components/Container";
+// plus icon for mui
+import { Add } from "@mui/icons-material";
+import { IconButton, Tooltip } from "@mui/material";
 
-const CONTRACT_ADDRESS = "your_contract_address_here";
-
-const IssueCredential = () => {
-    const [studentAddress, setStudentAddress] = useState("");
-    const [tokenURI, setTokenURI] = useState("");
-    const [transactionHash, setTransactionHash] = useState("");
-    const [error, setError] = useState("");
-
-    const handleIssueCredential = async () => {
-        try {
-            // Request access to the user's Ethereum account
-            if (typeof window !== 'undefined' && !window.ethereum) {
-                throw new Error("MetaMask is not installed!");
-            }
-
-            const provider = new ethers.JsonRpcProvider(process.env.LISK_SEPOLIA_NODE_URL ?? "");
-            const signer = provider.getSigner();
-
-            const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
-
-            // Call the issueCredential function
-            const tx = await contract.issueCredential(studentAddress, tokenURI);
-
-            // Wait for the transaction to be mined
-            const receipt = await tx.wait();
-
-            // Transaction successful
-            setTransactionHash(receipt.transactionHash);
-            setError("");
-        } catch (err: any) {
-            setError(err.message);
-        }
-    };
-
+export default function Wallet() {
     return (
-        <div>
-            <h1>Issue Credential</h1>
-            <input
-                type="text"
-                placeholder="Student Address"
-                value={studentAddress}
-                onChange={(e) => setStudentAddress(e.target.value)}
-            />
-            <br />
-            <input
-                type="text"
-                placeholder="Token URI"
-                value={tokenURI}
-                onChange={(e) => setTokenURI(e.target.value)}
-            />
-            <br />
-            <button onClick={handleIssueCredential}>Issue Credential</button>
-            {transactionHash && <p>Transaction Hash: {transactionHash}</p>}
-            {error && <p style={{ color: "red" }}>{error}</p>}
-        </div>
-    );
-};
+        <Container>
+            <div className="flex justify-between items-center">
+                <h1 className="text-2xl font-bold">Wallet</h1>
 
-export default IssueCredential;
+                <div className="flex items-center gap-2">
+                    <Tooltip title="Add">
+                        <IconButton>
+                            <Add fontSize="small" />
+                        </IconButton>
+                    </Tooltip>
+                </div>
+            </div>
+        </Container>
+    )
+}

@@ -17,6 +17,7 @@ export default function Dashboard() {
                             <h1 className="text-3xl font-bold text-gray-300">100</h1>
                             <p className="text-sm text-gray-400">Total number of certificates issued</p>
                         </div>
+                        
                         <div className="flex items-center justify-center min-h-[100%] w-2/3">
                             <div className="min-w-[100%] h-[150px] bg-[#151A1D] rounded-xl"></div>
                         </div>
@@ -29,7 +30,6 @@ export default function Dashboard() {
                 <div className="w-[100%] flex flex-row gap-4 my-4">
                     <div className="w-2/3 bg-[#1E2327] min-h-[400px] rounded-xl border border-[#2E343A]">
 
-                        
                     </div>
                     <div className="w-1/3 flex flex-col gap-4">
                         <div className="w-[100%] bg-[#1E2327] min-h-[200px] rounded-xl border border-[#2E343A]"></div>

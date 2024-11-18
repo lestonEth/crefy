@@ -83,10 +83,10 @@ export default function DropContractCertificate() {
             const balance = await provider.getBalance(await signer.getAddress());
             console.log(balance);
             const transactionCost = ethers.parseEther("0.261528268778"); // Estimated gas cost in ETH
-            if (balance < transactionCost) {
-                setErrorMessage("Insufficient funds in your wallet. Please add ETH to continue.");
-                return;
-            }
+            // if (balance < transactionCost) {
+            //     setErrorMessage("Insufficient funds in your wallet. Please add ETH to continue.");
+            //     return;
+            // }
             const response = await axios.post("/api/issueCredential", {
                 address: singleWalletAddress,
                 tokenURI: uid,
@@ -221,16 +221,15 @@ export default function DropContractCertificate() {
                     </div>
                     <br />
                     <button
-                        className="px-4 py-2 min-w-[400px] text-sm font-medium text-white border border-gray-600 rounded"
+                        className="px-4 py-2 min-w-[400px] text-sm font-medium text-white border border-gray-600 rounded flex items-center justify-center"
                         onClick={handleDeployCertificateNFT}
                     >
                         {deploying && (
                             <span className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-gray-300 mr-2"></span>
-
                         )}
                         {deploying ? "Deploying..." : "Deploy Certificate NFT"}
                     </button>
-                    {deployMessage && <p className={`text-${deployMessage.type === "success" ? "green" : "red"}-500 mt-4`}>{deployMessage.message}</p>}
+                    {deployMessage && <p className={`text-green text-${deployMessage.type === "success" ? "green" : "red"}-500 mt-4`}>{deployMessage.message}</p>}
                     {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
                 </div>
             </div>
