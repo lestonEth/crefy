@@ -5,16 +5,20 @@ import { ethers } from "ethers";
 import { FileUpload } from "@/components/ui/file-upload";
 import { Home, Cloud, NetworkCheck } from "@mui/icons-material"; // Importing MUI icons
 import * as XLSX from "xlsx"; // Import the xlsx library
+import Image from "next/image";
+import axios from "axios";
 
 export default function DropContractCertificate() {
     const [activeTab, setActiveTab] = useState<"manual" | "upload">("manual");
     const [file, setFile] = useState<File>();
     const [singleWalletAddress, setSingleWalletAddress] = useState<string>("");
-    const [addresses, setAddresses] = useState<string[]>([]);
+    const [addresses, setAddresses] = useState<string>("");
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [uid, setUid] = useState("");
     const [uploading, setUploading] = useState(false);
     const [message, setMessage] = useState<{ message: string, type: string } | null>(null);
+    const [deploying, setDeploying] = useState(false);
+    const [deployMessage, setDeployMessage] = useState<{ message: string, type: string } | null>(null);
 
     const handleFileChange = (files: File[]) => {
         setFile(files[0]);
@@ -60,66 +64,48 @@ export default function DropContractCertificate() {
             const firstSheetName = workbook.SheetNames[0];
             const worksheet = workbook.Sheets[firstSheetName];
             const jsonData: Array<Record<string, string>> = XLSX.utils.sheet_to_json(worksheet);
-            const parsedAddresses = jsonData.map((row) => row["WalletAddress"]).filter(Boolean);
-            setAddresses(parsedAddresses);
         } catch (error) {
             console.error("Error parsing Excel file:", error);
         }
     };
-
-    const handleAddSingleAddress = () => {
-        if (singleWalletAddress.trim() !== "") {
-            setAddresses((prev) => [...prev, singleWalletAddress.trim()]);
-            setSingleWalletAddress("");
-        }
-    };
-
+   
+    
     const handleDeployCertificateNFT = async () => {
+        setDeploying(true);
         try {
-            // Check if MetaMask is installed
             if (!(window as any).ethereum) {
                 setErrorMessage("MetaMask is not installed. Please install it to proceed.");
                 return;
             }
     
-            // Request account access and setup ethers provider
             const provider = new ethers.BrowserProvider((window as any).ethereum);
-            await provider.send("eth_requestAccounts", []);
-    
-            // Get the signer (connected wallet)
             const signer = await provider.getSigner();
-            const walletAddress = await signer.getAddress();
-            console.log("Connected wallet address:", walletAddress);
-    
-            // Your NFT contract details
-            const contractAddress = "0xB5E8d0eE8C54b04fbaEb04BE83680cad949B701F"; // Replace with your NFT contract address
-            const contractABI = [
-                // Replace with your contract's actual ABI
-                "function safeMint(address to, string memory tokenURI) public",
-            ];
-    
-            // Create a contract instance
-            const nftContract = new ethers.Contract(contractAddress, contractABI, signer);
-    
-            // Call the minting function
-            const tokenURI = uid; // Use the IPFS CID as the token URI
-            const txResponse = await nftContract.safeMint(walletAddress, tokenURI);
-            console.log("Minting transaction sent. Awaiting confirmation...", txResponse);
-    
-            // Wait for the transaction to be mined
-            const receipt = await txResponse.wait();
-            console.log("NFT minted successfully!", receipt);
-    
-            setMessage({
-                message: "NFT successfully minted and deployed.",
-                type: "success",
+            const balance = await provider.getBalance(await signer.getAddress());
+            console.log(balance);
+            const transactionCost = ethers.parseEther("0.261528268778"); // Estimated gas cost in ETH
+            if (balance < transactionCost) {
+                setErrorMessage("Insufficient funds in your wallet. Please add ETH to continue.");
+                return;
+            }
+            const response = await axios.post("/api/issueCredential", {
+                address: singleWalletAddress,
+                tokenURI: uid,
             });
-        } catch (error) {
-            console.error("Error deploying Certificate NFT:", error);
-            setErrorMessage("Failed to mint Certificate NFT. Please check your wallet or network settings.");
+            if (response.status === 200) {
+                setDeployMessage({ message: "Credential issued successfully", type: "success" });
+            }
+        } catch (error: any) {
+            console.error("Error issuing credential:", error.response?.data || error.message);
+            setDeployMessage({
+                message: "Error issuing credential",
+                type: "error",
+            });
+        } finally {
+            setDeploying(false);
         }
     };
     
+
 
     return (
         <div className="w-full h-[calc(100%-100px)]">
@@ -141,12 +127,12 @@ export default function DropContractCertificate() {
                             )}
                             {uploading ? "Uploading..." : "Upload to IPFS"}
                             {!uploading && (
-                                <span className="pointer-indicator animate-bounce absolute -left-0 top-1/2 w-full transform -translate-x-1 text-gray-300"
-                                    style={{
-                                        right: '200px',
-                                    }}
+                                <span className="pointer-indicator animate-bounce absolute -left-0 top-[10px] w-[230px] transform -translate-x-1 text-gray-300"
+                                style={{
+                                    left: "calc(-100% - 100px)"
+                                }}
                                 >
-                                    ⬅️ Upload cert image first
+                                    Upload certificate image first 
                                 </span>
                             )}
                         </button>
@@ -200,7 +186,6 @@ export default function DropContractCertificate() {
                                 <div className="flex justify-end w-2/3">
                                     <button
                                         className="px-4 py-2 mt-2 text-sm font-medium text-white hover:bg-green-700 rounded text-right border border-gray-600"
-                                        onClick={handleAddSingleAddress}
                                     >
                                         Add Address
                                     </button>
@@ -218,18 +203,6 @@ export default function DropContractCertificate() {
                         </div>
                     )}
 
-                    {addresses.length > 0 && (
-                        <div className="mt-4">
-                            <h3 className="text-sm text-gray-300">Addresses:</h3>
-                            <ul className="text-gray-300 text-sm mt-2">
-                                {addresses.map((address, index) => (
-                                    <li key={index} className="my-1">
-                                        {address}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
 
                     <h3 className="text-sm text-gray-300 my-3">Select the network you want to deploy your Certificate NFT on</h3>
                     <div className="flex flex-row gap-2 mt-4">
@@ -239,7 +212,7 @@ export default function DropContractCertificate() {
                         </button>
                         <button className="network-square border border-gray-600 flex flex-col items-center justify-center bg-gray-800 hover:bg-gray-700 rounded-lg p-4">
                             <Cloud sx={{ fontSize: 40 }} className="text-gray-300 mb-2" />
-                            Base
+                            Lisk
                         </button>
                         <button className="network-square border border-gray-600 flex flex-col items-center justify-center bg-gray-800 hover:bg-gray-700 rounded-lg p-4">
                             <NetworkCheck sx={{ fontSize: 40 }} className="text-gray-300 mb-2" />
@@ -248,11 +221,16 @@ export default function DropContractCertificate() {
                     </div>
                     <br />
                     <button
-                        className="px-4 py-2 min-w-[400px] text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded"
+                        className="px-4 py-2 min-w-[400px] text-sm font-medium text-white border border-gray-600 rounded"
                         onClick={handleDeployCertificateNFT}
                     >
-                        Deploy Certificate NFT
+                        {deploying && (
+                            <span className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-gray-300 mr-2"></span>
+
+                        )}
+                        {deploying ? "Deploying..." : "Deploy Certificate NFT"}
                     </button>
+                    {deployMessage && <p className={`text-${deployMessage.type === "success" ? "green" : "red"}-500 mt-4`}>{deployMessage.message}</p>}
                     {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
                 </div>
             </div>
