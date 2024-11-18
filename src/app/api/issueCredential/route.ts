@@ -10,6 +10,9 @@ async function getSignedContract() {
     if (!process.env.PRIVATE_KEY) {
         throw new Error("PRIVATE_KEY is not set in environment variables.");
     }
+    // Request wallet connection
+    // await (window as any).ethereum.request({ method: "eth_requestAccounts" });
+
     const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
     return new ethers.Contract(CONTRACT_ADDRESS, abi, wallet); // Connect contract with signer
 }
@@ -31,6 +34,7 @@ export async function POST(req: Request) {
         const signedContract = await getSignedContract();
         const tx = await signedContract.issueCredential(address, tokenURI); // Signed transaction
         const receipt = await tx.wait(); // Wait for transaction confirmation
+        console.log("Transaction receipt:", receipt);
 
         return new Response(
             JSON.stringify({
