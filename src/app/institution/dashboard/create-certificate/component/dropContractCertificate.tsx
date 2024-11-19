@@ -1,12 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { FileUpload } from "@/components/ui/file-upload";
 import { Home, Cloud, NetworkCheck } from "@mui/icons-material"; // Importing MUI icons
 import * as XLSX from "xlsx"; // Import the xlsx library
 import Image from "next/image";
 import axios from "axios";
+import NFTCard from "./NFTCard";
+import ConfettiExplosion from 'react-confetti-explosion';
+import { FetchImageIpfsFromJson } from "./handlers";
 
 export default function DropContractCertificate() {
     const [activeTab, setActiveTab] = useState<"manual" | "upload">("manual");
@@ -18,7 +21,18 @@ export default function DropContractCertificate() {
     const [uploading, setUploading] = useState(false);
     const [message, setMessage] = useState<{ message: string, type: string } | null>(null);
     const [deploying, setDeploying] = useState(false);
-    const [deployMessage, setDeployMessage] = useState<{ message: string, type: string } | null>(null);
+    const [deployMessage, setDeployMessage] = useState<{ message: string, type: string, receipt: any } | null>(null);
+    const [nftImageUrl, setNftImageUrl] = useState<string>("");
+   
+    useEffect(() => {
+        const fetchImage = async () => {
+            if (uid) {
+                const imageUrl = await FetchImageIpfsFromJson(uid);
+                setNftImageUrl(imageUrl || ""); // Direct call since FetchImageIpfsFromJson is now sync
+            }
+        }   
+        fetchImage();
+    }, [uid]);
 
     const handleFileChange = (files: File[]) => {
         setFile(files[0]);
@@ -92,13 +106,14 @@ export default function DropContractCertificate() {
                 tokenURI: uid,
             });
             if (response.status === 200) {
-                setDeployMessage({ message: "Credential issued successfully", type: "success" });
+                setDeployMessage({ message: "Credential issued successfully", type: "success", receipt: response.data.receipt });
             }
         } catch (error: any) {
             console.error("Error issuing credential:", error.response?.data || error.message);
             setDeployMessage({
                 message: "Error issuing credential",
                 type: "error",
+                receipt: null,
             });
         } finally {
             setDeploying(false);
@@ -129,10 +144,11 @@ export default function DropContractCertificate() {
                             {!uploading && (
                                 <span className="pointer-indicator animate-bounce absolute -left-0 top-[10px] w-[230px] transform -translate-x-1 text-gray-300"
                                 style={{
-                                    left: "calc(-100% - 100px)"
+                                    left: "calc(-100% - 100px)",
+                                    color: uid ? "green" : ""
                                 }}
                                 >
-                                    Upload certificate image first 
+                                    {uid ? "Certificate image uploaded" : "Upload certificate image first"} 
                                 </span>
                             )}
                         </button>
@@ -229,10 +245,31 @@ export default function DropContractCertificate() {
                         )}
                         {deploying ? "Deploying..." : "Deploy Certificate NFT"}
                     </button>
-                    {deployMessage && <p className={`text-green text-${deployMessage.type === "success" ? "green" : "red"}-500 mt-4`}>{deployMessage.message}</p>}
+                    {deployMessage && <p className={`text-green text-green-500 mt-4`}>{deployMessage.message}</p>}
                     {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
+                    {deployMessage && deployMessage.type === "success" &&
+                        <div className="w-full h-full flex items-center justify-center absolute z-50">
+                            <ConfettiExplosion 
+                                force={0.8}
+                                duration={3000}
+                                particleCount={300}
+                                width={1000}
+                            />
+                     </div>
+                    }
                 </div>
             </div>
+
+            {deployMessage && deployMessage.receipt && (
+                <NFTCard
+                    title="Certificate NFT"
+                    description="This NFT represents a certificate issued to the student."
+                    imageUrl={nftImageUrl}
+                    tokenId={deployMessage.receipt.tokenId}
+                    transactionHash={deployMessage.receipt.transactionHash}
+                    transactionReceipt={deployMessage.receipt}
+                />
+            )}
         </div>
     );
 }

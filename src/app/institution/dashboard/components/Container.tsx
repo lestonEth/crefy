@@ -13,16 +13,17 @@ export default function Container({ children }: ContainerProps) {
     const { darkMode } = useTheme();
     
     return (
-        <div className={`flex flex-row items-center h-screen ${darkMode ? "bg-gray-700" : "bg-gray-200"} `}
+        <div className={`flex flex-row items-center h-screen`}
         style={{
             background: "#1E2327",
+            overflowY: 'hidden',
         }}
         >
             <div className="">
                 <Sidebar />
             </div>
 
-            <div className='w-full h-full rounded-xl overflow-y-scroll py-3 px-2'>   
+            <div className='w-full h-full max-h-[100vh] rounded-xl overflow-y-scroll py-3 px-2 scrollbar-hide'>   
                 <div className="min-w-[100%] min-h-[100%] max-h-[calc(100vh-100px)] rounded-xl border border-[#2E343A] overflow-y-scroll scrollbar-hide"
                     style={{background: "#151A1D"}}
                 >

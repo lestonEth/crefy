@@ -16,3 +16,13 @@ export async function POST(request: NextRequest) {
         );
     }
 }
+
+export async function GET(request: NextRequest) {
+    const ipfsUrl = request.nextUrl.searchParams.get("ipfsUrl")
+    if (!ipfsUrl) {
+        return NextResponse.json({ error: "Missing ipfsUrl parameter" }, { status: 400 });
+    }
+    const { data } = await pinata.gateways.get(ipfsUrl)
+    console.log(data)
+    return NextResponse.json(data, { status: 200 });
+}
