@@ -113,9 +113,9 @@ export default function SmartContractForm() {
                             )}
                             {uploading ? "Uploading..." : "Upload to IPFS"}
                             {!uploading && (
-                                <span className="pointer-indicator animate-bounce absolute -right-0 top-1/2 transform -translate-x-1 text-gray-300"
+                                <span className="pointer-indicator animate-bounce absolute -left-0 top-1/2 transform -translate-x-1 text-gray-300"
                                     style={{
-                                        right: '-200px',
+                                        left: '-240px',
                                     }}
                                 >
                                     ⬅️ Upload cert image first
