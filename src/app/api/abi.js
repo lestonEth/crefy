@@ -130,7 +130,22 @@ const abi = [
     },
     {
         "inputs": [],
-        "name": "InvalidStudent",
+        "name": "addressCantBeZero",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "addressCantbeZero",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "invalidTokenUri",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "tokenIdCantBeZero",
         "type": "error"
     },
     {
@@ -266,6 +281,19 @@ const abi = [
         "type": "event"
     },
     {
+        "inputs": [],
+        "name": "_currentTokenId",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "address",
@@ -329,11 +357,16 @@ const abi = [
                 "type": "uint256"
             }
         ],
-        "name": "getCredentialURI",
+        "name": "getCredential",
         "outputs": [
             {
+                "internalType": "address",
+                "name": "owner",
+                "type": "address"
+            },
+            {
                 "internalType": "string",
-                "name": "",
+                "name": "uri",
                 "type": "string"
             }
         ],
@@ -351,9 +384,34 @@ const abi = [
         "name": "getCredentialsByOwner",
         "outputs": [
             {
-                "internalType": "uint256[]",
+                "components": [
+                    {
+                        "internalType": "uint256",
+                        "name": "tokenId",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "tokenURI",
+                        "type": "string"
+                    }
+                ],
+                "internalType": "struct Credentials.TokenDetails[]",
                 "name": "",
-                "type": "uint256[]"
+                "type": "tuple[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getCurrentTokenId",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
             }
         ],
         "stateMutability": "view",

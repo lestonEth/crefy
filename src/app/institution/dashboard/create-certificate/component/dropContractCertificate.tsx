@@ -10,6 +10,9 @@ import axios from "axios";
 import NFTCard from "./NFTCard";
 import ConfettiExplosion from 'react-confetti-explosion';
 import { FetchImageIpfsFromJson } from "./handlers";
+import { signMessage } from '@wagmi/core'
+import { config } from "@/config";
+import { useAppKitAccount } from '@reown/appkit/react'
 
 export default function DropContractCertificate() {
     const [activeTab, setActiveTab] = useState<"manual" | "upload">("manual");
@@ -23,7 +26,10 @@ export default function DropContractCertificate() {
     const [deploying, setDeploying] = useState(false);
     const [deployMessage, setDeployMessage] = useState<{ message: string, type: string, receipt: any } | null>(null);
     const [nftImageUrl, setNftImageUrl] = useState<string>("");
-   
+    const [privateKey, setPrivateKey] = useState<string>("");
+    const { address } = useAppKitAccount();
+
+
     useEffect(() => {
         const fetchImage = async () => {
             if (uid) {
@@ -91,22 +97,43 @@ export default function DropContractCertificate() {
                 setErrorMessage("MetaMask is not installed. Please install it to proceed.");
                 return;
             }
+
+            setDeployMessage({ message: "Signing transaction...", type: "info", receipt: null });
     
-            const provider = new ethers.BrowserProvider((window as any).ethereum);
-            const signer = await provider.getSigner();
-            const balance = await provider.getBalance(await signer.getAddress());
-            console.log(balance);
-            const transactionCost = ethers.parseEther("0.261528268778"); // Estimated gas cost in ETH
-            // if (balance < transactionCost) {
-            //     setErrorMessage("Insufficient funds in your wallet. Please add ETH to continue.");
-            //     return;
-            // }
-            const response = await axios.post("/api/issueCredential", {
-                address: singleWalletAddress,
-                tokenURI: uid,
+            // Sign the transaction
+            const signResponse = await signMessage(config, {
+                message: `
+                Sign this transaction to mint NFT
+                Address: ${singleWalletAddress}
+                Token URI: ${uid}
+                `,
             });
-            if (response.status === 200) {
-                setDeployMessage({ message: "Credential issued successfully", type: "success", receipt: response.data.receipt });
+    
+            console.log("Sign response: ", signResponse);
+    
+            if (signResponse) {
+                if (signResponse.code === 40001) {
+                    setErrorMessage("User rejected the request");
+                    return;
+                }
+    
+                // Send the signed response to the backend
+                const response = await axios.post("/api/issueCredential", {
+                    address: singleWalletAddress,
+                    tokenURI: uid,
+                    sendAddress: address, // Pass the private key/signature hash
+                });
+    
+                if (response.status === 200) {
+                    setDeployMessage({
+                        message: "Credential issued successfully",
+                        type: "success",
+                        receipt: response.data.receipt, // Transaction receipt
+                    });
+                    console.log("Transaction receipt:", response.data.receipt);
+                } else {
+                    throw new Error("Failed to issue credential.");
+                }
             }
         } catch (error: any) {
             console.error("Error issuing credential:", error.response?.data || error.message);
@@ -119,7 +146,6 @@ export default function DropContractCertificate() {
             setDeploying(false);
         }
     };
-    
 
 
     return (
@@ -252,7 +278,7 @@ export default function DropContractCertificate() {
                             <ConfettiExplosion 
                                 force={0.8}
                                 duration={3000}
-                                particleCount={300}
+                                particleCount={250}
                                 width={1000}
                             />
                      </div>
