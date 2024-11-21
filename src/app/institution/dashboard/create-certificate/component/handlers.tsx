@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ConstantAlphaFactor } from "three";
+
 
 const FetchImageIpfsFromJson = async(ipfsCid: string) => {
     if (!ipfsCid.startsWith("ipfs://")) {
@@ -31,4 +31,4 @@ const FetchFromIPFS = async (ipfsUrl: string) => {
 }
 
 
-export { FetchImageIpfsFromJson, FetchFromIPFS, }
+export { FetchImageIpfsFromJson, FetchFromIPFS }
