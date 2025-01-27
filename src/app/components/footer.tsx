@@ -7,9 +7,9 @@ export default function Footer() {
 
                 {/* Company Info */}
                 <div>
-                    <h2 className="text-xl font-semibold text-white mb-4">Company</h2>
+                    <h2 className="text-xl font-semibold text-white mb-4">Crefy</h2>
                     <p className="text-gray-400">
-                        DCN is a decentralized network for managing credentials and certificates. Step into your digital future with us.
+                        crefy is a decentralized network for managing credentials and certificates. Step into your digital future with us.
                     </p>
                 </div>
 
@@ -52,9 +52,9 @@ export default function Footer() {
                 </div>
             </div>
             {/* Copyright */}
-            <div className="text-center mt-10 text-gray-500 text-sm">
-                © {new Date().getFullYear()} DCN. All rights reserved.
-            </div>
+            <h2 className="text-center mt-10 text-gray-500 text-sm">
+                © {new Date().getFullYear()} CREFY. All rights reserved.
+            </h2>
         </footer>
     );
 }

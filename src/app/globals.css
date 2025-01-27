@@ -140,3 +140,58 @@
   outline: none;
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
 }
+
+
+/* /* use Recoleta font otf  */
+@font-face {
+  font-family: 'Recoleta';
+  src: url('../assets/fonts/Recoleta\ Alt\ Bold.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+/* Gelion ttf */
+@font-face {
+  font-family: 'Gelion';
+  src: url('../assets/fonts/Gelion\ Medium.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Recoleta', sans-serif;
+}
+
+p{
+  font-family: 'Gelion', sans-serif;  
+}
+
+@keyframes float1 {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(-20px, -30px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes float2 {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(30px, -40px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes float3 {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(-40px, 20px); }
+  100% { transform: translate(0, 0); }
+}
+
+.animate-float1 {
+  animation: float1 4s ease-in-out infinite;
+}
+
+.animate-float2 {
+  animation: float2 4s ease-in-out infinite;
+}
+
+.animate-float3 {
+  animation: float3 4s ease-in-out infinite;
+}

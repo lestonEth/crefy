@@ -1,20 +1,22 @@
 "use client";
 import { Brightness4, Brightness7, Notifications, Search, Home } from "@mui/icons-material";
 import { useTheme } from "@/context/ThemeContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function Topbar() {
     const { darkMode, toggleTheme } = useTheme();
     const [searchQuery, setSearchQuery] = useState("");
+    const [title, setTitle] = useState("");
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value);
     };
-
     // Get the last part of the path for the title
-    const path = window.location.pathname.split("/").pop();
-    const title = path ? path.charAt(0).toUpperCase() + path.slice(1) : '';
+    useEffect(() => {
+        const path = window.location.pathname.split("/").pop();
+        setTitle(path ? path.charAt(0).toUpperCase() + path.slice(1) : '');
+    }, []);
 
     return (
         <div className={`flex flex-row items-center justify-between w-full h-16 px-4 rounded-md sticky top-0 z-10`}>

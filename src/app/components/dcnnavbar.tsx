@@ -85,7 +85,7 @@ export default function DcnNavBar() {
             {/* Logo */}
             <h1 className="text-2xl font-extrabold text-white mr-4 relative z-10">
                 <Link href="/" className="text-white hover:text-[#00E1FF] text-5xl transition-colors duration-300">
-                    DCN
+                    Crefy
                 </Link>
             </h1>
 
@@ -98,9 +98,9 @@ export default function DcnNavBar() {
                 }}
             >
                 {navItems.map((item) => (
-                    <li key={item.href}>
+                    <h4 key={item.href}>
                         <NavLink href={item.href}>{item.label}</NavLink>
-                    </li>
+                    </h4>
                 ))}
             </ul>
 
