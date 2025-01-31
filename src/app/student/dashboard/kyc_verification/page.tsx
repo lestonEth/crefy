@@ -52,13 +52,13 @@ const KycVerification: React.FC = () => {
         setResponseMessage("Fetching access token...");
         try {
             const response = await axios.post("https://kub.terrasofthq.com/api/auth/access-token", {
-                email: "deshb9120@gmail.com",
-                password: "Terra2012."
+                email: "mulinyafadhil@gmail.com",
+                password: "0723943883.Com"
             });
-    
-            if (response.status === 200 && response.data.access_token) {
-                const token = response.data.access_token;
-                console.log("Access token:", response);
+            console.log("Access token:", response);
+            if (response.status === 200 && response.data.data.access_token) {
+                const token = response.data.data.access_token;
+                console.log("Access token:", response.data.data.access_token);
 
                 // Optionally store in sessionStorage for later use
                 sessionStorage.setItem("terraAccessToken", token);
@@ -99,7 +99,7 @@ const KycVerification: React.FC = () => {
             Object.keys(formData).forEach((key) => {
                 formDataToSend.append(key, (formData as any)[key]);
             });
-    
+            console.log("Form data to send:", Object.fromEntries(formDataToSend.entries()));
             const response = await axios.post(
                 "https://kub.terrasofthq.com/api/identity/enhanced-verification",
                 Object.fromEntries(formDataToSend.entries()),
