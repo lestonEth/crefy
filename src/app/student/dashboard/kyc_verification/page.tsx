@@ -5,6 +5,8 @@ import Container from "../../components/Container";
 import { ethers } from "ethers";
 import { useAppKitAccount } from "@reown/appkit/react";
 import axios from "axios";
+import IDExtractor from "./components/IDExtractor";
+import StepProgressBar from "./components/StepProgressBar";
 
 interface FormData {
     first_name: string;
@@ -43,6 +45,7 @@ const KycVerification: React.FC = () => {
     const [crefyName, setCrefyName] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);  // New loading state
     const [accessToken, setAccessToken] = useState<string>("");
+    const [steps, setSteps] = useState<number>(1);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -69,7 +72,7 @@ const KycVerification: React.FC = () => {
                 throw new Error("Invalid response from server");
             }
         } catch (error: any) {
-            console.error("Error fetching access token:", error);
+            console.error("Error fetching access token:");
             console.log(error.response);
             
             setResponseMessage(
@@ -118,9 +121,12 @@ const KycVerification: React.FC = () => {
                 const uniqueName = `${formData.first_name.toLowerCase()}${formData.last_name.toLowerCase()}.cnf.eth`;
                 setCrefyName(uniqueName);
                 await signTransaction(uniqueName);
+            } else {
+                console.log("Verification failed:", response);
             }
-        } catch (error) {
-            setResponseMessage("Verification failed. Please try again.");
+        } catch (error: any) {
+            console.log(error.response?.data || error);
+            setResponseMessage("Verification failed. Please try again. " + error.response?.data?.message);
         } finally {
             setIsLoading(false);
         }
@@ -156,93 +162,99 @@ const KycVerification: React.FC = () => {
         <Container>
             <div className="min-h-full my-6 bg-[#0A0B1E] p-8 rounded-3xl border border-gray-700 shadow-lg">
                 <h2 className="text-3xl mb-6 font-bold text-center text-white">KYC Verification</h2>
-                <form onSubmit={handleSubmit} className="space-y-6 max-w-lg mx-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <input 
-                            type="text" 
-                            name="first_name" 
-                            placeholder="First Name" 
-                            onChange={handleChange} 
-                            required 
-                            className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        <input 
-                            type="text" 
-                            name="last_name" 
-                            placeholder="Last Name" 
-                            onChange={handleChange} 
-                            required 
-                            className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
+                <StepProgressBar step={steps} />
+                <div className="flex justify-center items-center mb-6">
+                    <IDExtractor formData={formData} />
+                    <div className="w-1/2">
+                        <form onSubmit={handleSubmit} className="space-y-6 max-w-lg mx-auto">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <input 
+                                    type="text" 
+                                    name="first_name" 
+                                    placeholder="First Name" 
+                                    onChange={handleChange} 
+                                    required 
+                                    className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                                <input 
+                                    type="text" 
+                                    name="last_name" 
+                                    placeholder="Last Name" 
+                                    onChange={handleChange} 
+                                    required 
+                                    className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <input 
+                                    type="text" 
+                                    name="middle_name" 
+                                    placeholder="Middle Name" 
+                                    onChange={handleChange} 
+                                    className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                                <input 
+                                    type="text" 
+                                    name="id_number" 
+                                    placeholder="ID Number" 
+                                    onChange={handleChange} 
+                                    required 
+                                    className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <input 
+                                    type="text" 
+                                    name="id" 
+                                    value={formData.id} // Set id as the address, it will not be editable
+                                    readOnly
+                                    className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl cursor-not-allowed"
+                                />
+                                <input 
+                                    type="text" 
+                                    name="id_type" 
+                                    value={formData.id_type} 
+                                    onChange={handleChange} 
+                                    required 
+                                    className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <input 
+                                    type="text" 
+                                    name="country_code" 
+                                    value={formData.country_code} 
+                                    onChange={handleChange} 
+                                    required 
+                                    className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                                <input 
+                                    type="text" 
+                                    name="citizenship" 
+                                    value={formData.citizenship} 
+                                    onChange={handleChange} 
+                                    required 
+                                    className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <button 
+                                type="submit" 
+                                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold p-4 rounded-xl transition duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                                {isLoading ? (
+                                    <span className="flex justify-center items-center">
+                                        <div className="w-4 h-4 border-t-2 border-white border-solid rounded-full animate-spin mr-2" />
+                                        Verifying...
+                                    </span>
+                                ) : (
+                                    "Verify"
+                                )}
+                            </button>
+                        </form>
+                        {responseMessage && <p className="mt-4 text-lg text-center font-semibold text-green-400">{responseMessage}</p>}
+                        {crefyName && <p className="mt-2 text-lg text-center font-semibold text-yellow-400">Crefy Name: {crefyName}</p>}
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <input 
-                            type="text" 
-                            name="middle_name" 
-                            placeholder="Middle Name" 
-                            onChange={handleChange} 
-                            className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        <input 
-                            type="text" 
-                            name="id_number" 
-                            placeholder="ID Number" 
-                            onChange={handleChange} 
-                            required 
-                            className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <input 
-                            type="text" 
-                            name="id" 
-                            value={formData.id} // Set id as the address, it will not be editable
-                            readOnly
-                            className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl cursor-not-allowed"
-                        />
-                        <input 
-                            type="text" 
-                            name="id_type" 
-                            value={formData.id_type} 
-                            onChange={handleChange} 
-                            required 
-                            className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <input 
-                            type="text" 
-                            name="country_code" 
-                            value={formData.country_code} 
-                            onChange={handleChange} 
-                            required 
-                            className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        <input 
-                            type="text" 
-                            name="citizenship" 
-                            value={formData.citizenship} 
-                            onChange={handleChange} 
-                            required 
-                            className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
-                    <button 
-                        type="submit" 
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold p-4 rounded-xl transition duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                        {isLoading ? (
-                            <span className="flex justify-center items-center">
-                                <div className="w-4 h-4 border-t-2 border-white border-solid rounded-full animate-spin mr-2" />
-                                Verifying...
-                            </span>
-                        ) : (
-                            "Verify"
-                        )}
-                    </button>
-                </form>
-                {responseMessage && <p className="mt-4 text-lg text-center font-semibold text-green-400">{responseMessage}</p>}
-                {crefyName && <p className="mt-2 text-lg text-center font-semibold text-yellow-400">Crefy Name: {crefyName}</p>}
+                </div>
             </div>
         </Container>
     );
