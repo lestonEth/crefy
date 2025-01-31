@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Tesseract from "tesseract.js";
 
-const IDExtractor: React.FC = ({formData}: any) => {
+const IDExtractor: React.FC<{ formData: any; setFormData: any, setSteps: any }> = ({ formData, setFormData, setSteps }) => {
     const [image, setImage] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [extractedData, setExtractedData] = useState<{
@@ -68,10 +68,15 @@ const IDExtractor: React.FC = ({formData}: any) => {
                 body: JSON.stringify({ text: data}),
             });
             const result = await response.json();
-            formData.first_name = result.firstName;
-            formData.middle_name = result.middleName;
-            formData.last_name = result.lastName;
+            setFormData((prev: any) => ({
+                ...prev,
+                first_name: result.firstName,
+                middle_name: result.middleName,
+                last_name: result.lastName,
+                id_number: result.idNumber,
+            }));
             setExtractedData(result);
+            setSteps(2);    
         } catch (error) {
             console.error("Error sending to OpenAI:", error);
         }

@@ -156,6 +156,7 @@ const KycVerification: React.FC = () => {
         } catch (error) {
             setResponseMessage("Transaction signing failed.");
         }
+        setSteps(3);
     };
 
     return (
@@ -164,7 +165,7 @@ const KycVerification: React.FC = () => {
                 <h2 className="text-3xl mb-6 font-bold text-center text-white">KYC Verification</h2>
                 <StepProgressBar step={steps} />
                 <div className="flex justify-center items-center mb-6">
-                    <IDExtractor formData={formData} />
+                    <IDExtractor formData={formData} setFormData={setFormData} setSteps={setSteps} />
                     <div className="w-1/2">
                         <form onSubmit={handleSubmit} className="space-y-6 max-w-lg mx-auto">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -173,6 +174,7 @@ const KycVerification: React.FC = () => {
                                     name="first_name" 
                                     placeholder="First Name" 
                                     onChange={handleChange} 
+                                    value={formData.first_name}
                                     required 
                                     className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
@@ -181,6 +183,7 @@ const KycVerification: React.FC = () => {
                                     name="last_name" 
                                     placeholder="Last Name" 
                                     onChange={handleChange} 
+                                    value={formData.last_name}
                                     required 
                                     className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
@@ -190,6 +193,7 @@ const KycVerification: React.FC = () => {
                                     type="text" 
                                     name="middle_name" 
                                     placeholder="Middle Name" 
+                                    value={formData.middle_name}
                                     onChange={handleChange} 
                                     className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
@@ -197,6 +201,7 @@ const KycVerification: React.FC = () => {
                                     type="text" 
                                     name="id_number" 
                                     placeholder="ID Number" 
+                                    value={formData.id_number}
                                     onChange={handleChange} 
                                     required 
                                     className="w-full p-4 bg-[#1F1F1F] text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
