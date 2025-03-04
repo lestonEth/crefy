@@ -3,7 +3,6 @@
 import React from "react";
 import DcnNavBar from './components/dcnnavbar';
 import Carousel from "./components/Carousel";
-import CarouselWidget from "./components/CarouselWidget";
 import HowToGetStarted from "./components/howtogetStarted";
 import FAQ from "./components/FAQ";
 import Footer from "./components/footer";
